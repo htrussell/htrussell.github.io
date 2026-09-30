@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hudson Trussell | Portfolio & Projects</title>
+  <meta name="description" content="Portfolio of Hudson Trussell - AI, Data Engineering, and Enterprise Systems." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #111726;
+      --bg-card: #151d30;
+      --bg-card-hover: #1b253d;
+      --border-subtle: #232f48;
+      --border-highlight: #3b82f6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-purple: #8b5cf6;
+      --tag-bg: rgba(59, 130, 246, 0.12);
+      --tag-border: rgba(59, 130, 246, 0.28);
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background glow */
+    .glow-bg {
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 80%);
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    header {
+      padding: 5rem 0 3.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .hero-text h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .handle-tag {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--accent-blue);
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-weight: 500;
+    }
+
+    .bio {
+      margin-top: 0.5rem;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 680px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-primary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-accent:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+
+    /* Main Section Controls */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 2.5rem 0 1.5rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.825rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      color: var(--text-main);
+      border-color: var(--text-dim);
+    }
+
+    .filter-btn.active {
+      background: var(--tag-bg);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .count-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    /* Project Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding-bottom: 4rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      gap: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon-link {
+      color: var(--text-dim);
+      transition: color 0.2s;
+      display: inline-flex;
+    }
+
+    .icon-link:hover {
+      color: var(--text-main);
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.2rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .card-action-link {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.825rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.2s;
+    }
+
+    .card-action-link:hover {
+      gap: 0.5rem;
+    }
+
+    /* Skills Summary Bar */
+    .skills-summary {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .skills-summary {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .skill-col h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-col p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border-subtle);
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <div class="container">
+    <!-- Header / Profile Bio -->
+    <header>
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>
+            Hudson Trussell
+            <span class="handle-tag">@htrussell</span>
+          </h1>
+          <p class="bio">
+            MS Artificial Intelligence in Business &amp; Enterprise Integration candidate at the University of South Florida. 
+            Designing robust data pipelines, AI orchestration, and scalable digital systems.
+          </p>
+          <div class="social-links">
+            <a href="https://github.com/htrussell" target="_blank" rel="noopener noreferrer" class="btn btn-accent">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub Profile
+            </a>
+            <a href="https://www.linkedin.com/in/hjtrussell/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Core Architecture Summary -->
+    <div class="controls">
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="data">Data Engineering</button>
+        <button class="filter-btn" data-filter="ai">Edge AI &amp; Web</button>
+        <button class="filter-btn" data-filter="systems">Systems &amp; Benchmarks</button>
+      </div>
+      <div class="count-indicator" id="projectCount">Showing 4 Projects</div>
+    </div>
+
+    <!-- Projects Grid -->
+    <main class="grid" id="projectGrid">
+      
+      <!-- Project 1: Data Wranglers Pipeline -->
+      <article class="card" data-category="data">
+        <div>
+          <div class="card-header">
+            <h2 class="card-title">Data Wranglers Pipeline Engine</h2>
+            <div class="card-links">
+              <a href="https://github.com/alazzawiusf/Data-Wranglers-Final-Project" target="_blank" rel="noopener noreferrer" class="icon-link" title="Source Code">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+            </div>
+          </div>
+          <p class="card-desc">
+            Distributed enterprise ELT pipeline orchestrated via Apache Airflow in Docker containers. Integrates PySpark transformation jobs on HDFS with automated backfill routines, schema enforcement, and custom Pandas data defect detection.
+          </p>
+        </div>
+        <div>
+          <div class="card-tags">
+            <span class="tag">Apache Airflow</span>
+            <span class="tag">PySpark</span>
+            <span class="tag">HDFS</span>
+            <span class="tag">Docker Compose</span>
+            <span class="tag">Python</span>
+          </div>
+          <div class="card-footer">
+            <span>Data Wranglers Final Project</span>
+            <a href="https://github.com/alazzawiusf/Data-Wranglers-Final-Project/" target="_blank" rel="noopener noreferrer" class="card-action-link">
+              View Repo &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2: Serverless Edge AI Gateway & Chat -->
+      <article class="card" data-category="ai">
+        <div>
+          <div class="card-header">
+            <h2 class="card-title">Serverless Edge AI Gateway &amp; Chat</h2>
+            <div class="card-links">
+              <a href="https://github.com/htrussell/htrussell.github.io" target="_blank" rel="noopener noreferrer" class="icon-link" title="Source Code">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+            </div>
+          </div>
+          <p class="card-desc">
+            Zero-cold-start edge gateway running on Cloudflare Workers proxying open-weights language models (Llama 3.2). Handles fine-grained CORS, token authentication, and real-time streaming SSE chat completion for static frontends.
+          </p>
+        </div>
+        <div>
+          <div class="card-tags">
+            <span class="tag">Cloudflare Workers</span>
+            <span class="tag">Llama 3.2</span>
+            <span class="tag">Serverless JS</span>
+            <span class="tag">SSE Streams</span>
+          </div>
+          <div class="card-footer">
+            <span>htrussell.github.io</span>
+            <a href="https://github.com/htrussell/htrussell.github.io" target="_blank" rel="noopener noreferrer" class="card-action-link">
+              View Repo &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 3: Goal Mode Music Recommender -->
+      <article class="card" data-category="ai">
+        <div>
+          <div class="card-header">
+            <h2 class="card-title">Goal Mode &amp; Music Discovery</h2>
+            <div class="card-links">
+              <a href="https://github.com/htrussell/music-goal" target="_blank" rel="noopener noreferrer" class="icon-link" title="Source Code">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+            </div>
+          </div>
+          <p class="card-desc">
+            Algorithmic playlist recommendation engine with dynamic LLM failover chains (Gemini, OpenAI, local models). Features duration-budget filling algorithms, YouTube IFrame audio previews, and Last.fm catalog art integration.
+          </p>
+        </div>
+        <div>
+          <div class="card-tags">
+            <span class="tag">LLM Orchestration</span>
+            <span class="tag">YouTube API</span>
+            <span class="tag">Last.fm API</span>
+            <span class="tag">Vanilla JS</span>
+          </div>
+          <div class="card-footer">
+            <span>Prototype Application</span>
+            <a href="https://github.com/htrussell/music-goal" target="_blank" rel="noopener noreferrer" class="card-action-link">
+              Explore Code &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 4: Audio Media Digital Maturity Platform -->
+      <article class="card" data-category="systems">
+        <div>
+          <div class="card-header">
+            <h2 class="card-title">Media Digital Maturity Benchmark</h2>
+            <div class="card-links">
+              <a href="https://github.com/htrussell/audio-maturity-diagnostic" target="_blank" rel="noopener noreferrer" class="icon-link" title="Source Code">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+            </div>
+          </div>
+          <p class="card-desc">
+            Enterprise assessment tool analyzing digital maturity across 5 operational dimensions. Built with lightweight reactive SVG radar charts and exportable diagnostic scorecards for broadcasting organizations.
+          </p>
+        </div>
+        <div>
+          <div class="card-tags">
+            <span class="tag">SVG Radar Charts</span>
+            <span class="tag">Digital Strategy</span>
+            <span class="tag">SPA Architecture</span>
+            <span class="tag">Group 9</span>
+          </div>
+          <div class="card-footer">
+            <span>Assessment Web App</span>
+            <a href="https://github.com/htrussell/audio-maturity-diagnostic" target="_blank" rel="noopener noreferrer" class="card-action-link">
+              Explore Code &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </main>
+
+    <!-- Technical Core Competencies Summary -->
+    <section class="skills-summary">
+      <div class="skill-col">
+        <h3>Data &amp; Orchestration</h3>
+        <p>Apache Airflow, Docker Compose, PySpark, HDFS, Python (Pandas/NumPy), ELT Pipelines.</p>
+      </div>
+      <div class="skill-col">
+        <h3>Edge AI &amp; Web</h3>
+        <p>Cloudflare Workers, Streaming SSE, LLM Multi-Model Orchestration, Modern Semantic Web.</p>
+      </div>
+      <div class="skill-col">
+        <h3>Systems &amp; Architecture</h3>
+        <p>Digital Maturity Benchmarking, Reactive SVG Visualizations, Agile System Integration.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Hudson Trussell. Hosted via GitHub Pages.</p>
+    </footer>
+  </div>
+
+  <!-- Interactive Filter Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.card');
+      const countEl = document.getElementById('projectCount');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Toggle active class
+          filterButtons.forEach(b => b.classList.remove('active'));
+          button.classList.add('active');
+
+          const filter = button.getAttribute('data-filter');
+          let visibleCount = 0;
+
+          cards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (filter === 'all' || category === filter) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          countEl.textContent = `Showing ${visibleCount} Project${visibleCount === 1 ? '' : 's'}`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
